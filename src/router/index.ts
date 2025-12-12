@@ -33,7 +33,11 @@ const router = createRouter({
       },
     },
     {
-      path: "/logistics",
+      path: "/logistics/:service?",
+      // cara pakai 
+      // semua: /logistics
+      // inter: /logistics?service=international
+      // domes: /logistics?service=domestic
       name: "Logistics",
       component: () => import("@/views/LogisticsView.vue"),
     },

@@ -31,12 +31,13 @@ import { computed, reactive, ref, watch } from "vue";
 import useHSCode from "@/composables/useHSCode";
 import useCities from "@/composables/useCities";
 import { postQuoLog } from "@/api";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import useSkaCoo from "@/composables/useSkaCoo";
 import useProductsLogistic from "@/composables/useProductsLogistic";
 import useNoWA from "@/composables/useNoWA";
 
 const router = useRouter();
+const route = useRoute();
 
 interface FormLogistik {
   formId?: string;
@@ -106,6 +107,41 @@ const { isLoading, hscodes, refetch } = useHSCode(srcVal);
 const { cities } = useCities();
 const { govreg } = useSkaCoo();
 const { nowa } = useNoWA();
+
+const serviceType = computed(() => {
+  const paramService = route.params.service as string | undefined;
+  const queryService = (route.query.service as string | undefined) ?? undefined;
+
+  return (paramService || queryService || "all").toLowerCase();
+});
+
+const filteredProductsLogistic = computed(() => {
+  const list = productsLogistic.value || [];
+
+  const isDomestic = (item: { [key: string]: any }) => {
+    if (typeof item.product_name !== "string") return false;
+    const name = item.product_name.toUpperCase();
+    // Match any text that contains DOMESTIC / DOMESTIK (case-insensitive)
+    return name.includes("DOMESTIC") || name.includes("DOMESTIK") || name.includes("LAND");
+  };
+
+  const isInternational = (item: { [key: string]: any }) => {
+    if (typeof item.product_name !== "string") return false;
+    const name = item.product_name.toUpperCase();
+    // Match any text that contains INTERNATIONAL / INTERNASIONAL (case-insensitive)
+    return name.includes("INTERNATIONAL") || name.includes("INTERNASIONAL");
+  };
+
+  switch (serviceType.value) {
+    case "domestic":
+      return list.filter(isDomestic);
+    case "international":
+      return list.filter(isInternational);
+    case "all":
+    default:
+      return list;
+  }
+});
 
 const searcHSC = (event: any) => {
   srcVal.value = event.target.value;
@@ -297,7 +333,7 @@ const onSubmit = async () => {
                     <SelectContent>
                       <SelectGroup>
                         <SelectItem
-                          v-for="(lg, i) in productsLogistic"
+                          v-for="(lg, i) in filteredProductsLogistic"
                           :key="i"
                           :value="lg.product_id"
                           >{{ lg.product_name }}</SelectItem
