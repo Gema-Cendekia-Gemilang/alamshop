@@ -55,11 +55,11 @@ onMounted(() => {
     </RouterLink>
 
     <!-- Main Content -->
-    <div class="grid grid-cols-1 md:flex gap-5 mt-5 w-full">
+    <div class="grid grid-cols-1 md:flex gap-5 mt-5 w-full bg-red-50">
       <!-- Filter Sidebar -->
       <div
         id="filter"
-        class="border border-neutral-200 rounded-2xl h-fit p-4 flex flex-col justify-between md:w-1/5 md:sticky md:top-20"
+        class="bg-white border border-neutral-200 rounded-2xl h-fit p-4 flex flex-col justify-between md:w-1/6 md:sticky md:top-20"
       >
         <div id="acc">
           <div class="w-full">
@@ -88,7 +88,7 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      <div id="allprd" class="md:w-4/5">
+      <div id="allprd" class="md:w-5/6">
         <h1 class="font-semibold">Our Products</h1>
         <ProductList />
       </div>
