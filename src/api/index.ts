@@ -1,8 +1,8 @@
 import axios from "axios";
 import type { Vars, Dataquo } from "@/types";
 
-const apicode = "ZCiU7Oc0cxlM2mic9rNQ";
-const workspace = "ALAMS";
+const apicode = import.meta.env.VITE_API_CODE;
+const workspace = import.meta.env.VITE_WORKSPACE;
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const getAllProducts = async (

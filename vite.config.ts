@@ -11,9 +11,9 @@ export default defineConfig({
       plugins: [tailwind(), autoprefixer()],
     },
   },
-  server: {
-    port: 3845,
-  },
+  // server: {
+  //   port: 3845,
+  // },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
