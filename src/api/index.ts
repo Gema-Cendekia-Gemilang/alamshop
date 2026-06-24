@@ -8,11 +8,12 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const getAllProducts = async (
   page: number,
   catId?: string | undefined,
-  waterType?: string | string[] | undefined
+  // waterType?: string | string[] | undefined
 ) => {
   try {
     const servicecode = "cRZG/jjiOBrvF/jWdQy/ksE26twh8v7PCZpA4%2Bdk5EM%3D";
-    const vars: Vars = { page_num: page, catId, waterType };
+    // const vars: Vars = { page_num: page, catId, waterType };
+    const vars: Vars = { page_num: page, catId };
     const encodeVars = encodeURIComponent(JSON.stringify(vars));
     const url = `${API_BASE_URL}/txn?fnc=runLib;opic=${apicode};csn=${workspace};rc=${servicecode};vars=${encodeVars}`;
     const res = await axios.get(url);
@@ -36,6 +37,18 @@ export const getProductsByKeyword = async (keyword: string, page: number) => {
     }
   } catch (err) {
     throw err;
+  }
+};
+
+export const getFilter = async () => {
+  try {
+    const servicecode = "cRZG/jjiOBoah/n9cIsdmGi5Vdgix6Fnv5%2BP9TeZRW8%3D";
+    const url = `${API_BASE_URL}/txn?fnc=runLib;opic=${apicode};csn=${workspace};rc=${servicecode}`;
+    const res = await axios.get(url);
+    console.log(res.data)
+    return res.data;
+  } catch (error) {
+    throw error;
   }
 };
 
