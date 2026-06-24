@@ -21,20 +21,21 @@ const route = useRoute();
 const currentPage = ref(1);
 const catId = computed(() => route.params.catId as string | undefined);
 
-const waterType = computed(() => {
-  const queryValue = route.query.waterType as string | string[];
-  return Array.isArray(queryValue)
-    ? queryValue
-    : queryValue
-    ? [queryValue]
-    : [];
-});
+// const waterType = computed(() => {
+//   const queryValue = route.query.waterType as string | string[];
+//   return Array.isArray(queryValue)
+//     ? queryValue
+//     : queryValue
+//     ? [queryValue]
+//     : [];
+// });
 
 const { isLoading, isError, products } = useProducts(
   currentPage,
   catId,
-  waterType
+  // waterType
 );
+
 
 const cols = computed(() =>
   catId.value ? "md:grid-cols-4" : "md:grid-cols-5"
@@ -46,7 +47,8 @@ const currentPageFn = (page: number) => {
 const updatePage = () => {
   currentPageFn(1);
 };
-watch([catId, waterType], updatePage, { deep: true });
+// watch([catId, waterType], updatePage, { deep: true });
+watch([catId], updatePage, { deep: true });
 </script>
 <template>
   <div v-if="products && products?.itemsprd.length > 0">
