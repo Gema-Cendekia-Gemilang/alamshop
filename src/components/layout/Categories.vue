@@ -2,22 +2,11 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { RouterLink } from "vue-router";
 import { FishSymbol } from "lucide-vue-next";
+import useFilter from "@/composables/useFilter";
+import { computed } from "vue";
 
-const listcat = [
-  {
-    id: 1,
-    catname: "Ornamental Freshwater Fish",
-    link: "products/fishery/aof",
-  },
-  {
-    id: 2,
-    catname: "Ornamental Saltwater Fish",
-    link: "products/fishery/aos",
-  },
-  { id: 3, catname: "Consumption Fish", link: "products/fishery/ac" },
-  { id: 4, catname: "Sea Food", link: "products/fishery/ak" },
-  { id: 5, catname: "Fry Fish", link: "products/fishery/aff" },
-];
+const {categories} = useFilter();
+const listcat = computed(() => categories.value?.map((m: {[key: string]: string}) => ({id: m.product_code.toLowerCase(), catname: m.name, link: `products/${m.product_code.toLowerCase()}`})) || []);
 </script>
 <template>
   <section class="mt-3">
