@@ -5,12 +5,14 @@ import type { ComputedRef, Ref } from "vue";
 const useProducts = (
   currentPage: Ref<number>,
   catId?: ComputedRef<string | undefined>,
-  waterType?: Ref<string | string[] | undefined>
+  // waterType?: Ref<string | string[] | undefined>
 ) => {
   const { isFetching, isError, data, error } = useQuery({
-    queryKey: ["products", currentPage, "catid", catId, "waterType", waterType],
+    // queryKey: ["products", currentPage, "catid", catId, "waterType", waterType],
+    queryKey: ["products", currentPage, "catid", catId],
     queryFn: () =>
-      getAllProducts(currentPage.value, catId?.value, waterType?.value),
+      // getAllProducts(currentPage.value, catId?.value, waterType?.value),
+      getAllProducts(currentPage.value, catId?.value),
     refetchOnWindowFocus: false,
     placeholderData: keepPreviousData,
   });
