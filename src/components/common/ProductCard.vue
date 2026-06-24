@@ -11,23 +11,33 @@ import {
 import RadioForm from "@/components/common/RadioForm.vue";
 import type { CartItem } from "@/types";
 import Cart from "./Cart.vue";
+import useFilter from "@/composables/useFilter";
 
 const props = defineProps<{ product: CartItem }>();
 
 const cartStore = useCartStore();
+const {categories} = useFilter();
 
 const bdgProduct = (prd: string) => {
   prd = prd.split("-")[0];
   type Bdg = {
     [key: string]: string;
   };
-  const bdg: Bdg = {
-    AOF: "Ornamental Freshwater",
-    AOS: "Ornamental Saltwater",
-    AC: " Consumption",
-    AFF: "Fry Fish",
-    AK: "Sea Food",
-  };
+
+  // const bdg: Bdg = {
+  //   AOF: "Ornamental Freshwater",
+  //   AOS: "Ornamental Saltwater",
+  //   AC: " Consumption",
+  //   AFF: "Fry Fish",
+  //   AK: "Sea Food",
+  // };
+  const bdg: Bdg = Object.fromEntries(
+    categories.value.map(item => [
+      item.product_code.toUpperCase(),
+      item.name
+    ])
+  );
+
   return bdg[prd];
 };
 
