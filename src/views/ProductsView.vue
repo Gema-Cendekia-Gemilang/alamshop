@@ -1,40 +1,25 @@
 <script setup lang="ts">
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import ProductList from "@/components/layout/ProductList.vue";
+import ProductFilter from "@/components/layout/ProductFilter.vue";
 import { onMounted, ref, watch } from "vue";
 import { useRouter, useRoute, RouterLink } from "vue-router";
 
 const router = useRouter();
 const route = useRoute();
 
-const accordionItems = [
-  {
-    value: "categories",
-    title: "Categories",
-    options: [
-      { optName: "Ornamental Freshwater Fish", optVal: "aof" },
-      { optName: "Ornamental Saltwater Fish", optVal: "aos" },
-      { optName: "Consumption Fish", optVal: "ac" },
-      { optName: "Sea Food", optVal: "ak" },
-      { optName: "Fry Fish", optVal: "aff" },
-    ],
-  },
-];
-
 const selectedCategory = ref<string | undefined>(undefined);
 
 const updateURL = () => {
   if (!selectedCategory.value) return;
 
-  const categoryValue = accordionItems[0].options.find(
-    (cat) => cat.optVal === selectedCategory.value
-  )?.optVal;
+  // const categoryValue = categories.find(
+  //   (cat: any) => cat.optVal === selectedCategory.value
+  // )?.optVal;
 
-  if (!categoryValue) return;
+  // if (!categoryValue) return;
 
   router.push({
-    path: `/products/fishery/${categoryValue}`,
+    path: `/products/${selectedCategory.value}`,
   });
 };
 
@@ -55,39 +40,9 @@ onMounted(() => {
     </RouterLink>
 
     <!-- Main Content -->
-    <div class="grid grid-cols-1 md:flex gap-5 mt-5 w-full bg-red-50">
+    <div class="grid grid-cols-1 md:flex gap-5 mt-5 w-full">
       <!-- Filter Sidebar -->
-      <div
-        id="filter"
-        class="bg-white border border-neutral-200 rounded-2xl h-fit p-4 flex flex-col justify-between md:w-1/6 md:sticky md:top-20"
-      >
-        <div id="acc">
-          <div class="w-full">
-            <div>
-              <h3 class="text-base font-medium mb-3">Categories</h3>
-              <div>
-                <RadioGroup v-model="selectedCategory">
-                  <div
-                    v-for="(opt, index) in accordionItems[0].options"
-                    :key="index"
-                    class="flex items-start space-x-2 my-1"
-                  >
-                    <RadioGroupItem
-                      :id="`category-${index}`"
-                      :value="opt.optVal"
-                    />
-                    <Label
-                      :for="`category-${index}`"
-                      class="leading-4 font-normal"
-                      >{{ opt.optName }}</Label
-                    >
-                  </div>
-                </RadioGroup>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+       <ProductFilter v-model="selectedCategory"/>
       <div id="allprd" class="md:w-5/6">
         <h1 class="font-semibold">Our Products</h1>
         <ProductList />
